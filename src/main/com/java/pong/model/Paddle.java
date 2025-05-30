@@ -28,6 +28,10 @@ public class Paddle {
         return yCoord;
     }
 
+    public int getDy() {
+        return dy;
+    }
+
     public int getSpeed() {
         return speed;
     }
