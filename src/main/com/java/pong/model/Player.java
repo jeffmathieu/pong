@@ -12,7 +12,13 @@ public class Player {
         return score;
     }
 
-    public void addPoint() {
+    public boolean addPoint() {
         this.score += 1;
+
+        return score >= 10;
+    }
+
+    public void resetScore() {
+        score = 0;
     }
 }

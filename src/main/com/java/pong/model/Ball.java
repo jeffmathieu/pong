@@ -36,27 +36,21 @@ public class Ball {
         return yCoord;
     }
 
-    public int move() {
-        xCoord += dx;
-        yCoord += dy;
-
-        if (yCoord < 0 || yCoord > GameWindow.HEIGHT - 30 - width) {
-            setDirection(dy *= -1);
-        }
-
-        if (xCoord < 10) {
-            return 2;
-        }
-        if (xCoord > GameWindow.WIDTH - 10) {
-            return 1;
-        }
-
-        return 0;
+    public int getDx() {
+        return dx;
     }
 
-    public void reset(int playerWon) {
-        if (playerWon == 1) dx = -2;
-        else if (playerWon == 2) dx = 2;
+    public int getDy() {
+        return dy;
+    }
+
+    public void move() {
+        xCoord += dx;
+        yCoord += dy;
+    }
+
+    public void reset() {
+        dx = dx * -1;
 
         dy = randomY();
 
@@ -68,8 +62,12 @@ public class Ball {
         g.fillRect(xCoord, yCoord, width, width);
     }
 
-    public void setDirection(int dy) {
+    public void setDirectionY(int dy) {
         this.dy = dy;
+    }
+
+    public void setDirectionX(int dx) {
+        this.dx = dx;
     }
 
     private int randomX() {
@@ -86,6 +84,10 @@ public class Ball {
     private int randomY() {
         Random rand = new Random();
         int baseSpeed = 2;
-        return rand.nextInt(5) + baseSpeed;
+        return rand.nextInt(3) + baseSpeed;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

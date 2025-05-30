@@ -21,8 +21,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private final Ball ball;
     private final Timer timer;
 
-    private boolean isScored;
-
+    private boolean playerWon;
 
     public GamePanel() {
         setBackground(Color.pink);
@@ -38,13 +37,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         this.timer = new Timer(1000/60, this);
 
-        this.isScored = false;
-
-
+        this.playerWon = false;
     }
 
     public void startGame() {
         timer.start();
+    }
+    public void pauseGame() {
+        timer.stop();
     }
 
     @Override
@@ -67,14 +67,41 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         leftPaddle.move();
         rightPaddle.move();
-        int playerScored = ball.move();
-        if (playerScored == 1) {
-            player1.addPoint();
-            ball.reset(1);
-        } else if (playerScored == 2) {
-            player2.addPoint();
-            ball.reset(2);
+        ball.move();
+
+
+        if (ball.getyCoord() + ball.getWidth() >= leftPaddle.getyCoord() &&
+                ball.getyCoord() <= leftPaddle.getyCoord() + leftPaddle.getHeight() &&
+                ball.getxCoord() <= leftPaddle.getxCoord() + leftPaddle.getWidth() &&
+                ball.getxCoord() > leftPaddle.getxCoord() + (leftPaddle.getWidth() / 2)) {
+            ball.setDirectionX(Math.abs(ball.getDx()));
         }
+
+        if (ball.getxCoord() + ball.getWidth() >= rightPaddle.getxCoord() &&
+                ball.getyCoord() + ball.getWidth() >= rightPaddle.getyCoord() &&
+                ball.getyCoord() <= rightPaddle.getyCoord() + rightPaddle.getHeight() &&
+                ball.getxCoord() < rightPaddle.getxCoord() + (rightPaddle.getWidth() / 2)){
+            ball.setDirectionX(-Math.abs(ball.getDx()));
+        }
+
+        if (ball.getyCoord() < 0 || ball.getyCoord() > GameWindow.HEIGHT - 30 - ball.getWidth()) {
+            ball.setDirectionY(ball.getDy() * -1);
+        }
+
+        if (ball.getxCoord() < ball.getWidth()) {
+            playerWon = player2.addPoint();
+            ball.reset();
+        }
+        if (ball.getxCoord() > GameWindow.WIDTH - ball.getWidth()) {
+            playerWon = player1.addPoint();
+            ball.reset();
+        }
+
+        if (playerWon) {
+            pauseGame();
+        }
+
+
         repaint();
     }
 
@@ -90,6 +117,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             case KeyEvent.VK_S -> leftPaddle.setDirection(leftPaddle.getSpeed());
             case KeyEvent.VK_UP -> rightPaddle.setDirection(-rightPaddle.getSpeed());
             case KeyEvent.VK_DOWN -> rightPaddle.setDirection(rightPaddle.getSpeed());
+            case KeyEvent.VK_R -> {
+                if (playerWon) {
+                    player1.resetScore();
+                    player2.resetScore();
+                    //ball.reset();
+                    playerWon = false;
+                    timer.restart();
+                }
+            }
         }
     }
 

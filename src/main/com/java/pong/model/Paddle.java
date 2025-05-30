@@ -50,6 +50,11 @@ public class Paddle {
         this.dy = dy;
     }
 
+    public int getWidth() {
+        return width;
+    }
 
-
+    public int getHeight() {
+        return height;
+    }
 }
