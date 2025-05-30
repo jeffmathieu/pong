@@ -13,4 +13,12 @@ class BallTest {
         assertEquals(100, ball.getyCoord());
     }
 
+    @Test
+    void movedTest() {
+        Ball ball = new Ball(100, 100);
+        ball.move();
+        assertTrue(ball.getxCoord() != 100);
+        assertTrue(ball.getyCoord() != 100);
+    }
+
 }
