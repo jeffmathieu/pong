@@ -17,6 +17,7 @@ public class Ball {
 
     private int dx;
     private int dy;
+    private int speedBoost;
 
     public Ball(int x, int y) {
         this.xCoord = x;
@@ -26,6 +27,7 @@ public class Ball {
 
         this.dx = randomX();
         this.dy = randomY();
+        this.speedBoost = 0;
     }
 
     public int getxCoord() {
@@ -45,7 +47,7 @@ public class Ball {
     }
 
     public void move() {
-        xCoord += dx;
+        xCoord += (dx * speedBoost);
         yCoord += dy;
     }
 
@@ -56,6 +58,8 @@ public class Ball {
 
         xCoord = initxCoord;
         yCoord = inityCoord;
+
+        speedBoost = 1;
     }
 
     public void draw(Graphics g) {
@@ -75,19 +79,23 @@ public class Ball {
 
         int direction = rand.nextInt(3);
         return switch (direction) {
-            case 1 -> -2;
-            case 2 -> 2;
+            case 1 -> -3;
+            case 2 -> 3;
             default -> rand.nextInt(4);
         };
     }
 
     private int randomY() {
         Random rand = new Random();
-        int baseSpeed = 2;
+        int baseSpeed = 1;
         return rand.nextInt(3) + baseSpeed;
     }
 
     public int getWidth() {
         return width;
+    }
+
+    public void increaseSpeedBoost() {
+        speedBoost += 1;
     }
 }

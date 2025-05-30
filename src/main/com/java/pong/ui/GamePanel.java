@@ -152,6 +152,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                     timer.restart();
                 }
             }
+            case KeyEvent.VK_F -> ball.increaseSpeedBoost();
         }
     }
 

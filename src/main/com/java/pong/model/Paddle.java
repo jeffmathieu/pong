@@ -9,7 +9,7 @@ public class Paddle {
     private final int xCoord;
     private int yCoord;
 
-    private final int width = 10;
+    private final int width = 20;
     private final int height = 80;
 
     private int dy = 0;
