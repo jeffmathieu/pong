@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private boolean playerWon;
 
     public GamePanel() {
-        setBackground(Color.pink);
+        setBackground(new Color(0xEDC0E6));
         setFocusable(true);
         addKeyListener(this);
 
@@ -50,17 +50,44 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.white);
 
-        String scoreText = player1.getScore() + " : " + player2.getScore();
-        Font font = new Font("Ariel" , Font.BOLD, 100);
+        g.setColor(new Color(0xFFFFFF));
+
+        // draw rules
+        String gameText = "First player to get 10 points wins.";
+        Font font = new Font("Tahoma" , Font.BOLD, 10);
         g.setFont(font);
+        int textWidtha = g.getFontMetrics().stringWidth(gameText);
+        g.drawString(gameText, 10, 10);
+
+        // draw score
+        String scoreText = player1.getScore() + " : " + player2.getScore();
+        g.setFont(new Font("Tahoma" , Font.BOLD, 100));
         int textWidth = g.getFontMetrics().stringWidth(scoreText);
         g.drawString(scoreText, (getWidth() - textWidth) / 2, GameWindow.HEIGHT / 5);
 
+        //draw game elements
+        g.setColor(new Color(0xF6F6F6));
         leftPaddle.draw(g);
+
         rightPaddle.draw(g);
         ball.draw(g);
+
+        //draw "game over" message
+        if (playerWon) {
+            g.setColor(new Color(0xE4AB44));
+
+            String winnerText = player1.getScore() > player2.getScore() ? "Player 1 Wins!" : "Player 2 Wins!";
+            g.setFont(new Font("Tahoma" , Font.BOLD, 30));
+            int textWidth1 = g.getFontMetrics().stringWidth(winnerText);
+            g.drawString(winnerText, (getWidth() - textWidth1) / 2, GameWindow.HEIGHT / 3);
+
+            g.setColor(new Color(0xFFFFFF));
+            String resetText = "Press R to restart the game.";
+            g.setFont(new Font("Tahoma" , Font.BOLD, 24));
+            int textWidth2 = g.getFontMetrics().stringWidth(resetText);
+            g.drawString(resetText, (getWidth() - textWidth2) / 2, (GameWindow.HEIGHT / 3) + 50);
+        }
     }
 
     @Override
@@ -121,7 +148,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 if (playerWon) {
                     player1.resetScore();
                     player2.resetScore();
-                    //ball.reset();
                     playerWon = false;
                     timer.restart();
                 }
