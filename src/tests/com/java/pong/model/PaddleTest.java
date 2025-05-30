@@ -11,7 +11,7 @@ class PaddleTest {
         Paddle paddle = new Paddle(50, 50);
         assertEquals(50, paddle.getxCoord());
         assertEquals(50, paddle.getyCoord());
-        assertEquals(0, paddle.getSpeed());
+        assertEquals(5, paddle.getSpeed());
     }
 
     @Test
